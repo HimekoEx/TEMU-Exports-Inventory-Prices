@@ -13,3 +13,4 @@
 This project is licensed under the **GNU General Public License v3 (GPL-3)** (http://www.gnu.org/copyleft/gpl.html).
 
 [项目地址](https://github.com/HimekoEx/TEMU-Exports-Inventory-Prices)
+[脚本地址](https://greasyfork.org/zh-CN/scripts/497605)
