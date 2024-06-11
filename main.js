@@ -1,25 +1,47 @@
 // ==UserScript==
 // @name         TEMU卖家中心导出库存价格
 // @namespace    http://tampermonkey.net/
-// @version      0.6
+// @version      0.7
 // @description  TEMU卖家中心导出库存价格, 屏蔽弹窗
 // @author       HimekoEx
 // @license      GPL-3.0
 // @match        *://*.kuajingmaihuo.com/*
 // @match        *://*.agentseller.temu.com/*
 // @icon         https://bstatic.cdnfe.com/static/files/sc/favicon.ico
-// @grant        none
+// @grant        GM_registerMenuCommand
+// @grant        GM_setValue
+// @grant        GM_getValue
 // @run-at       document-start
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
     console.log('Tampermonkey脚本启动');
 
+    // 添加菜单级别的开关变量, 并从本地存储中获取上次的状态
+    var removeDivsEnabled = GM_getValue('removeDivsEnabled', false);
+    console.log('屏蔽弹窗:', removeDivsEnabled);
+
+    // 切换 removeDivs 开关状态的函数, 并保存状态到本地存储
+    function toggleRemoveDivs() {
+        removeDivsEnabled = !removeDivsEnabled;
+        GM_setValue('removeDivsEnabled', removeDivsEnabled);
+        console.log('屏蔽弹窗 toggle:', removeDivsEnabled);
+        location.reload();
+    }
+
+    function updateMenuCommand() {
+        // 添加菜单命令，用于切换开关状态
+        GM_registerMenuCommand(removeDivsEnabled ? "屏蔽弹窗 ON" : "屏蔽弹窗 OFF", toggleRemoveDivs);
+    }
+
+    // 更新菜单状态，确保与开关状态一致
+    updateMenuCommand();
+
     // 拦截fetch请求
     const originalFetch = window.fetch;
-    window.fetch = async function(...args) {
+    window.fetch = async function (...args) {
         const response = await originalFetch.apply(this, args);
         const url = args[0];
 
@@ -38,14 +60,14 @@
 
     // 拦截XMLHttpRequest
     const originalOpen = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function(...args) {
+    XMLHttpRequest.prototype.open = function (...args) {
         this._url = args[1];
         originalOpen.apply(this, args);
     };
 
     const originalSend = XMLHttpRequest.prototype.send;
-    XMLHttpRequest.prototype.send = function(...args) {
-        this.addEventListener('load', function() {
+    XMLHttpRequest.prototype.send = function (...args) {
+        this.addEventListener('load', function () {
             if (this._url.includes('/bg-visage-mms/product/skc/pageQuery')) {
                 console.log('XMLHttpRequest加载事件URL:', this._url);
                 const response = this.responseText;
@@ -64,6 +86,7 @@
 
     // 删除特定div的函数
     function removeDivs() {
+        if (!removeDivsEnabled) return; // 如果开关关闭, 则不执行操作
         const divsToRemove = document.querySelectorAll('body > div[data-testid="beast-core-modal-mask"], body > div[data-testid="beast-core-modal"]');
         divsToRemove.forEach(div => div.remove());
     }
