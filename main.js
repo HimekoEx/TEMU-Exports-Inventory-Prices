@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TEMU卖家中心导出库存价格
 // @namespace    http://tampermonkey.net/
-// @version      0.7.2
+// @version      0.7.3
 // @description  TEMU卖家中心导出库存价格, 屏蔽弹窗
 // @author       HimekoEx
 // @license      GPL-3.0
@@ -91,7 +91,8 @@
         const selectors = [
             'body > div[data-testid="beast-core-modal-mask"]',
             'body > div[data-testid="beast-core-modal"]',
-            'div.sold-out-goods-list_container__1zO49'
+            'div.sold-out-goods-list_container__1zO49',
+            'div.opportunity-product_opportunitySection__1pBP0'
         ];
     
         selectors.forEach(selector => {
@@ -165,6 +166,11 @@
             a.click();
             URL.revokeObjectURL(url);
             console.log('数据已导出');
+
+            // 清空存储的json数据
+            localStorage.removeItem('interceptedFetchData');
+            localStorage.removeItem('interceptedXHRData');
+            console.log('存储的数据已清空');
         } else {
             console.error('没有找到要导出的数据');
         }
