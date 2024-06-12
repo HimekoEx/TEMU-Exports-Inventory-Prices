@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TEMU卖家中心导出库存价格
 // @namespace    http://tampermonkey.net/
-// @version      0.7.1
+// @version      0.7.2
 // @description  TEMU卖家中心导出库存价格, 屏蔽弹窗
 // @author       HimekoEx
 // @license      GPL-3.0
@@ -87,8 +87,17 @@
     // 删除特定div的函数
     function removeDivs() {
         if (!removeDivsEnabled) return; // 如果开关关闭, 则不执行操作
-        const divsToRemove = document.querySelectorAll('body > div[data-testid="beast-core-modal-mask"], body > div[data-testid="beast-core-modal"]');
-        divsToRemove.forEach(div => div.remove());
+
+        const selectors = [
+            'body > div[data-testid="beast-core-modal-mask"]',
+            'body > div[data-testid="beast-core-modal"]',
+            'div.sold-out-goods-list_container__1zO49'
+        ];
+    
+        selectors.forEach(selector => {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(element => element.remove());
+        });
     }
 
     // 等待页面完全加载
