@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TEMU卖家中心导出库存价格
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.7.1
 // @description  TEMU卖家中心导出库存价格, 屏蔽弹窗
 // @author       HimekoEx
 // @license      GPL-3.0
@@ -40,8 +40,8 @@
     updateMenuCommand();
 
     // 拦截fetch请求
-    const originalFetch = window.fetch;
-    window.fetch = async function (...args) {
+    const originalFetch = window.unsafeWindow.fetch;
+    window.unsafeWindow.fetch = async function (...args) {
         const response = await originalFetch.apply(this, args);
         const url = args[0];
 
@@ -59,14 +59,14 @@
     };
 
     // 拦截XMLHttpRequest
-    const originalOpen = XMLHttpRequest.prototype.open;
-    XMLHttpRequest.prototype.open = function (...args) {
+    const originalOpen = window.unsafeWindow.XMLHttpRequest.prototype.open;
+    window.unsafeWindow.XMLHttpRequest.prototype.open = function (...args) {
         this._url = args[1];
         originalOpen.apply(this, args);
     };
 
-    const originalSend = XMLHttpRequest.prototype.send;
-    XMLHttpRequest.prototype.send = function (...args) {
+    const originalSend = window.unsafeWindow.XMLHttpRequest.prototype.send;
+    window.unsafeWindow.XMLHttpRequest.prototype.send = function (...args) {
         this.addEventListener('load', function () {
             if (this._url.includes('/bg-visage-mms/product/skc/pageQuery')) {
                 console.log('XMLHttpRequest加载事件URL:', this._url);
