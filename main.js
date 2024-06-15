@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TEMU卖家中心导出库存价格
 // @namespace    http://tampermonkey.net/
-// @version      0.7.3
+// @version      0.7.4
 // @description  TEMU卖家中心导出库存价格, 屏蔽弹窗
 // @author       HimekoEx
 // @license      GPL-3.0
@@ -92,7 +92,6 @@
             'body > div[data-testid="beast-core-modal-mask"]',
             'body > div[data-testid="beast-core-modal"]',
             'div.sold-out-goods-list_container__1zO49',
-            'div.opportunity-product_opportunitySection__1pBP0'
         ];
     
         selectors.forEach(selector => {
