@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TEMU卖家中心导出库存价格
 // @namespace    http://tampermonkey.net/
-// @version      0.7.6
+// @version      0.7.7
 // @description  TEMU卖家中心导出库存价格, 屏蔽弹窗
 // @author       HimekoEx
 // @license      GPL-3.0
@@ -119,11 +119,11 @@
 
         observer.observe(document.body, { childList: true, subtree: true });
 
-        // 3秒后停止观察
+        // 5秒后停止观察
         setTimeout(() => {
             observer.disconnect();
             console.log('停止观察DOM变动');
-        }, 3000);
+        }, 5000);
 
         // 检查页面URL并在特定页面添加按钮
         const productListUrlPrefix = 'https://seller.kuajingmaihuo.com/goods/product/list'
