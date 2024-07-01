@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TEMU卖家中心导出库存价格
 // @namespace    http://tampermonkey.net/
-// @version      0.7.5
+// @version      0.7.6
 // @description  TEMU卖家中心导出库存价格, 屏蔽弹窗
 // @author       HimekoEx
 // @license      GPL-3.0
@@ -126,7 +126,7 @@
         }, 3000);
 
         // 检查页面URL并在特定页面添加按钮
-        productListUrlPrefix = 'https://seller.kuajingmaihuo.com/goods/product/list'
+        const productListUrlPrefix = 'https://seller.kuajingmaihuo.com/goods/product/list'
         if (window.location.href.startsWith(productListUrlPrefix)) {
             console.log('在指定页面, 3秒后添加按钮');
             setTimeout(addButton, 3000);
