@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TEMU卖家中心导出库存价格
 // @namespace    http://tampermonkey.net/
-// @version      0.7.7
+// @version      0.7.8
 // @description  TEMU卖家中心导出库存价格, 屏蔽弹窗
 // @author       HimekoEx
 // @license      GPL-3.0
@@ -98,6 +98,10 @@
         const selectors = [
             'body > div[data-testid="beast-core-modal-mask"]',
             'body > div[data-testid="beast-core-modal"]',
+            'body > div.MDL_mask_5-114-0',
+            'body > div.MDL_outerWrapper_5-114-0',
+            'body > div.MDL_mask_5-113-0',
+            'body > div.MDL_outerWrapper_5-113-0',
             'div.sold-out-goods-list_container__1zO49',
         ];
 
@@ -138,7 +142,7 @@
         const parentDiv = document.querySelector('div.hooks_dividerLeftBlock__1d8oE');
         if (parentDiv) {
             const button = document.createElement('button');
-            button.className = 'BTN_outerWrapper_5-109-0 BTN_primary_5-109-0 BTN_medium_5-109-0 BTN_outerWrapperBtn_5-109-0';
+            button.className = 'BTN_outerWrapper_5-113-0 BTN_primary_5-113-0 BTN_medium_5-113-0 BTN_outerWrapperBtn_5-113-0';
             button.setAttribute('data-testid', 'beast-core-button');
             button.setAttribute('type', 'button');
             button.style.marginLeft = '0px';
