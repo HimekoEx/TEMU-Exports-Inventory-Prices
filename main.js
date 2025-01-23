@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TEMU卖家中心导出库存价格
 // @namespace    http://tampermonkey.net/
-// @version      0.7.8
+// @version      0.7.9
 // @description  TEMU卖家中心导出库存价格, 屏蔽弹窗
 // @author       HimekoEx
 // @license      GPL-3.0
@@ -39,20 +39,26 @@
     }
 
     function updateMenuCommand() {
-        // 添加菜单命令，用于切换开关状态
+        // 添加菜单命令, 用于切换开关状态
         GM_registerMenuCommand(removeDivsEnabled ? "屏蔽弹窗 ON" : "屏蔽弹窗 OFF", toggleRemoveDivs);
     }
 
-    // 更新菜单状态，确保与开关状态一致
+    // 更新菜单状态, 确保与开关状态一致
     updateMenuCommand();
 
     // 拦截fetch请求
     const originalFetch = window.unsafeWindow.fetch;
     window.unsafeWindow.fetch = async function (...args) {
         const response = await originalFetch.apply(this, args);
-        const url = args[0];
+        let url = args[0]; // 获取 fetch 的第一个参数
+    
+        // 如果 url 是 Request 对象, 提取实际的 URL
+        if (url instanceof Request) {
+            url = url.url;
+        }
 
-        if (url.includes('/bg-visage-mms/product/skc/pageQuery')) {
+        // 确保 url 是字符串, 再调用 includes
+        if (typeof url === 'string' && url.includes('/bg-visage-mms/product/skc/pageQuery')) {
             const clone = response.clone();
             clone.json().then(data => {
                 console.log('拦截到的fetch响应:', data);
