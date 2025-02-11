@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         TEMU卖家中心导出库存价格
 // @namespace    http://tampermonkey.net/
-// @version      0.7.9
+// @version      0.7.10
 // @description  TEMU卖家中心导出库存价格, 屏蔽弹窗
 // @author       HimekoEx
 // @license      GPL-3.0
 // @match        *://*.kuajingmaihuo.com/*
 // @match        *://*.agentseller.temu.com/*
+// @match        *://*.agentseller-us.temu.com/*
 // @icon         https://bstatic.cdnfe.com/static/files/sc/favicon.ico
 // @grant        GM_registerMenuCommand
 // @grant        GM_setValue
